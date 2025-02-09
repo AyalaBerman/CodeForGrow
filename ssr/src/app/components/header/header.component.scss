@@ -1,0 +1,48 @@
+.nav-noti {
+  background-color: #000000;
+  min-height: 2.5em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+
+  p {
+    font-size: 1.05em;
+    font-weight: 600;
+    color: white;
+    margin: 0;
+  }
+
+  .noti-text {
+    padding: 0 5px;
+    display: flex;
+    align-items: baseline;
+  }
+
+  .button-cancle {
+    background-color: transparent;
+    border-color: transparent;
+  }
+}
+
+.notification {
+  &_scroll {
+    overflow: auto;
+  }
+
+  .badge-notification {
+    width: 10px;
+    height: 10px;
+    padding: 10px;
+    font-size: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    position: absolute;
+    top: -2px;
+    right: -13px;
+    margin: 0;
+  }
+
+}

@@ -1,0 +1,105 @@
+<div
+  class="maintutor_outer"
+  [ngClass]="isBorder? 'outer_border border-default-color': ''"
+  id="{{tutor._id}}"
+>
+  <!-- (click)="viewProfile()" -->
+  <div class="maintutor-body">
+    <div class="row">
+      <div class="col-lg-3 col-sm-4 p_lr">
+        <div class="maintutor_image">
+          <a [routerLink]="['/tutors', tutor.username]">
+            <img
+              onerror="this.src='/assets/images/default-avatar.jpg'"
+              [src]="tutor.avatarUrl"
+              alt="Tutor image"
+              class="img-fluid"
+          /></a>
+        </div>
+        <!-- maintutor_image end  -->
+      </div>
+      <!-- col end  -->
+
+      <div class="col-lg-9 col-sm-8 p_lr">
+        <div class="choose_one_one">
+          <div class="top_hhpp">
+            <a [routerLink]="['/tutors', tutor.username]">
+              <h3>{{tutor?.name}}</h3>
+            </a>
+            <span class="text-default-color">
+              Starting from {{ tutor?.price1On1Class | appCurrency}}
+            </span>
+          </div>
+
+          <app-text-ellipsis
+            [content]="tutor.bio"
+            [showChar]="150"
+            [path]="'/tutors'"
+            [param]="tutor.username"
+            [class]="'about'"
+          ></app-text-ellipsis>
+
+          <div class="my_performbdgs">
+            <div class="rewesss_">
+              <img
+                src="assets/images/star.png"
+                height="16"
+                class="me-1"
+                alt=""
+                *ngIf="tutor.totalRating!==0"
+              />
+              <i class="fi fi-rr-star" *ngIf="tutor.totalRating===0"></i>
+              <span>{{tutor.totalRating}} Reviews</span>
+            </div>
+
+            <div class="cmpt_lsns lsnssss">
+              <i
+                class="fi fi-rr-computer"
+                *ngIf="tutor.completedByLearner===0"
+              ></i>
+              <img
+                src="assets/images/computer.png"
+                height="16"
+                class="me-1"
+                alt=""
+                *ngIf="tutor.completedByLearner>0"
+              />
+
+              <span>{{tutor?.completedByLearner || 0}} Completed Lessons</span>
+            </div>
+            <!-- cmpt_lsns end -->
+          </div>
+          <!-- my_performbdgs end  -->
+          <div class="d-flex mb-1">
+            <span class="label label-light-primary" translate
+              >Verified Tutor</span
+            >
+            <span
+              class="label label-light-warning ms-2"
+              translate
+              *ngIf="tutor.featured"
+              >Featured Tutor</span
+            >
+          </div>
+        </div>
+        <!-- choose_one_one end -->
+      </div>
+      <!-- col end  -->
+    </div>
+    <!-- row end  -->
+  </div>
+  <div
+    class="book_btnss_"
+    [hidden]="currentUser && currentUser.type === 'tutor' && !config.allowTutorBooking"
+  >
+    <a [routerLink]="[tutor?.username,'booking']" translate>Book a lesson</a>
+    <a
+      [routerLink]="[tutor?.username,'booking']"
+      [queryParams]="{isFree: true}"
+      translate
+      >Book free session</a
+    >
+  </div>
+  <!-- book_btnss_ end  -->
+</div>
+<!-- maintutor_outer-1 end  -->

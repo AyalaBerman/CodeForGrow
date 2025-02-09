@@ -1,0 +1,257 @@
+<section class="sm-padding">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-md-12 col-lg-12 col-sm-12 text-center">
+        <h2 class="color-light-black" translate>Our Approved Teachers</h2>
+        <p class="sub-title mt-2" translate>This is list tutor</p>
+      </div>
+    </div>
+    <div class="top-list">
+      <div class="title-main">
+        <h4><strong translate>Tutors</strong></h4>
+      </div>
+    </div>
+    <div class="row row-filter">
+      <div class="col-md-4">
+        <div class="input-border form-filter">
+          <h4 (click)="showMore()"><i class="fi fi-rr-bars-filter"></i> Filter</h4>
+          <div [ngClass]="showMoreFilter ? 'filter show' : 'filter'">
+            <div class="form-group">
+              <label class="font-weight-bold font-sm" translate>Availability</label>
+              <app-date-range (dateChange)="dateChangeEvent($event)"></app-date-range>
+            </div>
+            <div class="form-group">
+              <label class="font-weight-bold font-sm" translate>Grades</label>
+              <!-- <grade-tutor [grades]="grades" (afterChange)="gradeChange($event)"></grade-tutor> -->
+              <select class="custom-select form-control form-select" [(ngModel)]="searchFields.grade"
+                (change)="gradeChange()">
+                <option class="subject" selected value="" translate>Grades</option>
+                <option class="subject" *ngFor="let item of grades" ngValue="{{ item._id }}">{{ item.name }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="font-weight-bold font-sm" translate>Categories</label>
+              <select class="custom-select form-control form-select" [(ngModel)]="searchFields.categoryIds"
+                (change)="selectCategory()">
+                <option selected translate value="">None</option>
+                <option *ngFor="let cate of categories" value="{{cate._id}}">{{cate.name}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="font-weight-bold font-sm" translate>Subjects</label>
+              <select class="custom-select form-control form-select" [(ngModel)]="searchFields.subjectIds"
+                (change)="selectSubject()">
+                <option selected translate value="">None</option>
+                <option *ngFor="let sub of subjects" value="{{sub._id}}">{{sub.name}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="font-weight-bold font-sm" translate>Topics</label>
+              <select class="custom-select form-control form-select" [(ngModel)]="searchFields.topicIds"
+                (change)="query()">
+                <option selected translate value="">None</option>
+                <option *ngFor="let topic of topics" value="{{topic._id}}">{{topic.name}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="font-weight-bold font-sm" translate>Countries</label>
+              <select class="custom-select form-control form-select" [(ngModel)]="searchFields.countryCode">
+                <option selected translate value="">Country</option>
+                <option *ngFor="let item of countries" value="{{item.code}}">{{item.name}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-12 col-sm-12 col-md-12 col-lg-7 col-xl-7 col-xxl-7 p_lr">
+            <p *ngIf="loading">Loading...</p>
+            <div class="blocks">
+              <app-tutor-card
+                *ngFor="let item of tutors"
+                [tutor]="item"
+                [config]="config"
+                [isBorder]="item._id === activeTutor?._id"
+                [currentUser]="currentUser"
+                (hover)="onHoverTutor($event)"
+              ></app-tutor-card>
+              <div class="mt-5" *ngIf="total > pageSize">
+                <ngb-pagination
+                  [collectionSize]="total"
+                  [(page)]="page"
+                  [pageSize]="pageSize"
+                  [maxSize]="2"
+                  (pageChange)="pageChange()"
+                  class="card-pagination pagination"
+                  *ngIf="total > 0"
+                >
+                </ngb-pagination>
+              </div>
+            </div>
+            <!-- blocks end  -->
+          </div>
+          <!-- col end -->
+
+          <div class="col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5 col-xxl-5 p_lr" [hidden]="!activeTutor">
+            <div class="floatind_videobx my_bookgns border-default-color">
+              <div class="table-responsive table-slot">
+                <div class="available-slot-loading" *ngIf="loadingSchedule">
+                  <div class="loadingio-spinner-dual-ring-obpcj68a0a">
+                    <div class="ldio-laeo1mze2">
+                      <div></div>
+                      <div>
+                        <div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <table class="table table-borderless table-available-slot">
+                  <thead>
+                    <tr class="text-default-color">
+                      <th></th>
+                      <th>SU</th>
+                      <th>MO</th>
+                      <th>TU</th>
+                      <th>WE</th>
+                      <th>TH</th>
+                      <th>FR</th>
+                      <th>SA</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p class="time-section">
+                          <b>Morning</b> <br />
+                          06:00 - 12:00
+                        </p>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Sunday?.morning}"></div>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Monday?.morning}"></div>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Tuesday?.morning}"></div>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Wednesday?.morning}"></div>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Thursday?.morning}"></div>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Friday?.morning}"></div>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Saturday?.morning}"></div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p class="time-section"><b>Afternoon</b> <br /> 12:00 - 18:00</p>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Sunday?.afternoon}"></div>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Monday?.afternoon}"></div>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Tuesday?.afternoon}"></div>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Wednesday?.afternoon}"></div>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Thursday?.afternoon}"></div>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Friday?.afternoon}"></div>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Saturday?.afternoon}"></div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p class="time-section">
+                          <b>Evening</b> <br />
+                          18:00 - 24:00
+                        </p>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Sunday?.evening}"></div>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Monday?.evening}"></div>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Tuesday?.evening}"></div>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Wednesday?.evening}"></div>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Thursday?.evening}"></div>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Friday?.evening}"></div>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Saturday?.evening}"></div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p class="time-section">
+                          <b>Night</b> <br />
+                          00:00 - 06:00
+                        </p>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Sunday?.night}"></div>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Monday?.night}"></div>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Tuesday?.night}"></div>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Wednesday?.night}"></div>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Thursday?.night}"></div>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Friday?.night}"></div>
+                      </td>
+                      <td>
+                        <div class="available-slot" [ngClass]="{'active': calendar?.Saturday?.night}"></div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <a [routerLink]="[activeTutor?.username, 'booking']" class="float_link default-hover-color mt-1" translate
+                >View full availability</a
+              >
+            </div>
+          </div>
+          <!-- col end -->
+
+          <!-- video popup here -->
+          <!-- Modal -->
+
+          <!-- Modal end-->
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+</section>
