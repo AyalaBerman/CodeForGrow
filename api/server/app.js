@@ -6,24 +6,26 @@ const nconf = require('nconf');
 process.env.LOCAL_ID = Math.random().toString(36).substring(7);
 
 const cors = require('cors');
+const express = require('express');
+const app = express();
 
-const corsOptions = {
-  origin: 'https://growpayments.netlify.app', // ה-Frontend שלך
-  methods: 'GET,POST,PUT,DELETE,OPTIONS',
-  allowedHeaders: 'Content-Type,Authorization'
-};
+// const corsOptions = {
+//   origin: 'https://growpayments.netlify.app', // ה-Frontend שלך
+//   methods: 'GET,POST,PUT,DELETE,OPTIONS',
+//   allowedHeaders: 'Content-Type,Authorization'
+// };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
-  // app.use(cors({
-  //   origin: function (origin, callback) {
-  //     if (!origin || allowedOrigins.includes(origin)) {
-  //       callback(null, true);
-  //     } else {
-  //       callback(new Error('Not allowed by CORS'));
-  //     }
-  //   }
-  // }));
+  app.use(cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    }
+  }));
 
 
 
