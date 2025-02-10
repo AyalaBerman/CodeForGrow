@@ -4,10 +4,10 @@ export const environment = {
   build: 3,
   showBuild: false,
   maximumFileSize: 1024,
-  apiBaseUrl: 'https://api.example.com/v1',
+  apiBaseUrl: 'https://codeforgrow.onrender.com',
   stripeKey: 'pk_test_51xxxxx',
-  url: 'https://example.com',
-  socketUrl: 'https://api.example.com',
+  url: 'https://growpayments.netlify.app/',
+  socketUrl: 'https://codeforgrow.onrender.com',
   zoomSDK: 'LYbtxxx',
   zoomSiteUrl: 'https://lesson.example.com'
 };
